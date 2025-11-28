@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const DefaultImage = "ghcr.io/usestrix/strix-sandbox:0.1.10"
+const DefaultImage = "ghcr.io/timastras9/endpoint-sandbox:latest"
 
 type SandboxInfo struct {
 	ContainerID string
@@ -24,7 +24,7 @@ type DockerRuntime struct {
 }
 
 func NewDockerRuntime() *DockerRuntime {
-	image := os.Getenv("STRIX_IMAGE")
+	image := os.Getenv("ENDPOINT_IMAGE")
 	if image == "" {
 		image = DefaultImage
 	}
@@ -40,7 +40,7 @@ func (r *DockerRuntime) CreateSandbox(ctx context.Context, agentID string) (*San
 		"-p", fmt.Sprintf("%d:8080", port),
 		"-e", fmt.Sprintf("AUTH_TOKEN=%s", token),
 		"-e", fmt.Sprintf("AGENT_ID=%s", agentID),
-		"--name", fmt.Sprintf("strix-%s", agentID[:8]),
+		"--name", fmt.Sprintf("endpoint-%s", agentID[:8]),
 		r.image,
 	)
 
